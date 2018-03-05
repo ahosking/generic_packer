@@ -1,0 +1,45 @@
+{
+  "_comment": [
+    "Pack an OpenVPN instance from the community AMI"
+  ],  
+  "description": "OpenVPN Community",
+
+  "variables": {
+    "aws_secret_key": "", 
+    "aws_access_key": "", 
+    "aws_ami": "ami-22a71546", 
+    "node_description": "", 
+    "hostname": "", 
+    "aws_region": "ca-central-1",
+    "vpc_id": "",
+    "subnet_id": "",
+    "ssh_user": "ubuntu",
+    "ssh_key_name": "terraform_key",
+    "aws_ssh_keypair": "terraform-key"
+  },  
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "{{user `aws_region`}}",
+    "source_ami": "{{user `aws_ami`}}",
+    "instance_type": "t2.small",
+    "associate_public_ip_address": "true",
+    "vpc_id": "{{user `vpc_id`}}",
+    "subnet_id": "{{user `subnet_id`}}",
+
+    "ssh_username": "{{user `ssh_user`}}",
+    "ami_name": "{{user `hostname`}}",
+    "force_deregister": true,
+    "ami_description": "{{user `node_description`}}",
+
+    "ssh_keypair_name": "{{user `aws_ssh_keypair`}}",
+    "ssh_private_key_file": "../terraform/statics/ssh/{{user `ssh_key_name`}}"
+  }], 
+
+  "provisioners": [{
+    "type": "shell",
+    "inline": ["sudo apt-get update",
+               "sudo apt-get upgrade"]
+   }]  
+}
