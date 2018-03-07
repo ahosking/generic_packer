@@ -9,13 +9,13 @@
     "aws_access_key": "", 
     "aws_ami": "ami-22a71546", 
     "node_description": "", 
-    "hostname": "", 
+    "hostname": "OpenVPN", 
     "aws_region": "ca-central-1",
     "vpc_id": "",
     "subnet_id": "",
     "ssh_user": "ubuntu",
-    "ssh_key_name": "terraform_key",
-    "aws_ssh_keypair": "terraform-key"
+    "ssh_key_name": "packer-key",
+    "aws_ssh_keypair": "packer-key"
   },  
   "builders": [{
     "type": "amazon-ebs",
@@ -34,7 +34,7 @@
     "ami_description": "{{user `node_description`}}",
 
     "ssh_keypair_name": "{{user `aws_ssh_keypair`}}",
-    "ssh_private_key_file": "../terraform/statics/ssh/{{user `ssh_key_name`}}"
+    "ssh_private_key_file": "ssh/{{user `ssh_key_name`}}"
   }], 
 
   "provisioners": [{
